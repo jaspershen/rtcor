@@ -1,8 +1,8 @@
 rtcorWRH <- function(ref.data = "data1.csv",
-                     cor.data = "data2.csv") {
+                     cor.data = "data2.csv",
+                     method = "polyline") {
   #csv file
   file <- dir()
-
     RTQC.info1 <- read.csv("RTQC.info1.csv", stringsAsFactors = FALSE, check.names = FALSE)
     RTQC.info2 <- read.csv("RTQC.info2.csv", stringsAsFactors = FALSE, check.names = FALSE)
 
@@ -32,16 +32,29 @@ rtcorWRH <- function(ref.data = "data1.csv",
     rtqc2 <- rtqc2[order(rtqc2[,1]),]
 
 
+    ###add the head and tail points
+
+    rtqc1 <- rbind(rtqc1, c("P1", 0.05), c("P2", 23))
+    rtqc2 <- rbind(rtqc2, c("P1", 0.05), c("P2", 23))
   ##correction model
   rt1 <- as.numeric(rtqc1[,2])
   rt2 <- as.numeric(rtqc2[,2])
-
+  if(method == "polyline"){
   mse <- bestpoly(x = rt2,
                   y = rt1,
                   poly = c(1,2,3,4,5))
   idx <- which.min(mse)
   model <- lm(rt1 ~ poly(rt2,idx))
-
+  }else{
+  result <- bestloess(x = rt2,
+                      y = rt1,
+                      span.begin = 0.5,
+                      span.end = 1,
+                      span.step = 0.1,
+                      degree = c(1,2))
+  idx <- which.min(result[,3])
+  model <- loess(rt1 ~ rt2, span = result[idx,2], degree = result[idx,1])
+}
   data1 <- read.csv(ref.data, stringsAsFactors = FALSE, check.names = FALSE)
   data2 <- read.csv(cor.data, stringsAsFactors = FALSE, check.names = FALSE)
 
