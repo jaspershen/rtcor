@@ -1,3 +1,4 @@
+
 ## Introduction
 
 对于大规模代谢组学数据，不同batch采集的数据的RT会发生变化，因此对于不同batch的数据整合，和有标准RT的数据库匹配等会有一定的困难，因此，通过在采集数据的同时，在worklist中间插入RTQC(混标)，从而对不同batch的数据的RT做监测，然后对两个不同batch的RTQC做RT的校正曲线，从而可以对不同batch的数据做校正。因为标准品的RT range有一定范围，因此，校正只能适用于处在RTQC RT range范围之内的peak。rtcor就是适用于使用RTQC的两个batch数据之间校正的一个R包。
@@ -38,3 +39,52 @@ rtcor(ref.data = "data1.csv",
 * rt.tolerance：第一种情况下，去寻找RTQC混标时的RT的tolerance。
 * max.missing：第一种情况下，可忍受的不能寻找到的混标的最大个数。
 
+
+
+## 给若鸿用的
+### 用于标准品采集RT的校正，以及23分钟到12分钟的转化的函数是*rtcorWRH*
+
+1. RT校正
+
+```
+rtcorWRH <- function(ref.data = "data1.csv",
+                     cor.data = "data2.csv",
+                     RTQC.info1 = "RTQC.info1.csv",
+                     RTQC.info2 = "RTQC.info2.csv",
+                     method = "polyline",
+                     poly = c(1,2,3,4,5),
+                     degree = c(1,2),
+                     translate = FALSE)
+```
+
+其中：
+* ref.data：将哪个数据作为参考数据，则校正数据的RT会校正到参考数据的体系中去。
+* cor.data：将哪个数据作为校正数据，则校正数据的RT会校正到参考数据的体系中去。
+* RTQC.info1：参考数据的RTQC。
+* RTQC.info2：校正数据的RTQC。
+* method: "plolyline"是多项式，"loess"是用LOESS回归。默认为"polyline"。
+* poly：是指使用几次方进行优化。
+* degree：是指LOESS回归的次方。
+* translate：是否为RT从23分钟从12分钟的转变，默认为FALSE，即不是。
+
+2. RT的转换
+```
+rtcorWRH <- function(ref.data = "data1.csv",
+                     cor.data = "data2.csv",
+                     RTQC.info1 = "RTQC.info1.csv",
+                     RTQC.info2 = "RTQC.info2.csv",
+                     method = "polyline",
+                     poly = c(1,2,3,4,5),
+                     degree = c(1,2),
+                     translate = TRUE)
+```
+
+其中：
+* ref.data：将哪个数据作为参考数据，则校正数据的RT会校正到参考数据的体系中去。
+* cor.data：将哪个数据作为校正数据，则校正数据的RT会校正到参考数据的体系中去。
+* RTQC.info1：参考数据的RTQC。应该是12min的数据。
+* RTQC.info2：校正数据的RTQC。应该是23min的数据。
+* method: "plolyline"是多项式，"loess"是用LOESS回归。默认为"polyline"。
+* poly：是指使用几次方进行优化。
+* degree：是指LOESS回归的次方。
+* translate：是否为RT从23分钟从12分钟的转变，默认为TRUE，即是。
