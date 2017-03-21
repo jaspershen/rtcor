@@ -3,8 +3,8 @@ title: "Help document of rtcor"
 author: "Jasper Shen"
 date: "2017.2.17"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
   word_document: default
 ---
 

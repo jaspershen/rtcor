@@ -1,6 +1,9 @@
 rtcorWRH <- function(ref.data = "data1.csv",
                      cor.data = "data2.csv",
-                     method = "polyline") {
+                     method = "polyline",
+                     poly = c(1,2,3,4,5),
+                     degree = c(1,2),
+                     translate = FALSE) {
   #csv file
   file <- dir()
     RTQC.info1 <- read.csv("RTQC.info1.csv", stringsAsFactors = FALSE, check.names = FALSE)
@@ -33,16 +36,21 @@ rtcorWRH <- function(ref.data = "data1.csv",
 
 
     ###add the head and tail points
+    if(translate){
+      rtqc1 <- rbind(rtqc1, c("P1", 0.025), c("P2", 12))
+      rtqc2 <- rbind(rtqc2, c("P1", 0.05), c("P2", 23))
+    }else{
+      rtqc1 <- rbind(rtqc1, c("P1", 0.05), c("P2", 23))
+      rtqc2 <- rbind(rtqc2, c("P1", 0.05), c("P2", 23))
+    }
 
-    rtqc1 <- rbind(rtqc1, c("P1", 0.05), c("P2", 23))
-    rtqc2 <- rbind(rtqc2, c("P1", 0.05), c("P2", 23))
   ##correction model
   rt1 <- as.numeric(rtqc1[,2])
   rt2 <- as.numeric(rtqc2[,2])
   if(method == "polyline"){
   mse <- bestpoly(x = rt2,
                   y = rt1,
-                  poly = c(1,2,3,4,5))
+                  poly = poly)
   idx <- which.min(mse)
   model <- lm(rt1 ~ poly(rt2,idx))
   }else{
@@ -51,7 +59,7 @@ rtcorWRH <- function(ref.data = "data1.csv",
                       span.begin = 0.5,
                       span.end = 1,
                       span.step = 0.1,
-                      degree = c(1,2))
+                      degree = degree)
   idx <- which.min(result[,3])
   model <- loess(rt1 ~ rt2, span = result[idx,2], degree = result[idx,1])
 }
