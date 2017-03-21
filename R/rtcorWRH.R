@@ -1,13 +1,15 @@
 rtcorWRH <- function(ref.data = "data1.csv",
                      cor.data = "data2.csv",
+                     RTQC.info1 = "RTQC.info1.csv",
+                     RTQC.info2 = "RTQC.info2.csv",
                      method = "polyline",
                      poly = c(1,2,3,4,5),
                      degree = c(1,2),
                      translate = FALSE) {
   #csv file
   file <- dir()
-    RTQC.info1 <- read.csv("RTQC.info1.csv", stringsAsFactors = FALSE, check.names = FALSE)
-    RTQC.info2 <- read.csv("RTQC.info2.csv", stringsAsFactors = FALSE, check.names = FALSE)
+    RTQC.info1 <- read.csv(RTQC.info1, stringsAsFactors = FALSE, check.names = FALSE)
+    RTQC.info2 <- read.csv(RTQC.info2, stringsAsFactors = FALSE, check.names = FALSE)
 
     rtqc.name1 <- unique(RTQC.info1[,1])
     rtqc.name2 <- unique(RTQC.info2[,1])
