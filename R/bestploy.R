@@ -25,8 +25,7 @@ bestpoly <- function(x,
     pre.all[[i]] <- pre
   }
 
-  mse <- unlist(lapply(pre.all,
-                       function(x) {sum((head(y, -2) -x)^2)/length(head(y, -2))}))
+  mse <- sapply(pre.all, function(x) {sum((head(y, -2) -x)^2)/length(head(y, -2))})
   # y axis scope
   x.lim1 <- 0.8*0.05*60
   x.lim2 <- 1.2*23*60
@@ -98,7 +97,7 @@ bestpoly <- function(x,
       labList[i] = paste0(sprintf("%0.4g", bestModel$coefficients[[i]]),
                           paste0('x^', i - 1))
     }
-    browser()
+    # browser()
     labelString <- paste0('y = ', paste(rev(labList), collapse = ' + '))
     title(main = "Selected Model")
     text(200, 10, adj = c(0, 0), labels = labelString)
