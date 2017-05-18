@@ -8,6 +8,6 @@ Maintainer: Xin Xiong <xiongxin@sioc.ac.cn>
 Description: rtcor
 License: GPL (>= 2)
 Depends: 
-Collate: bestloess.R bestploy.R dealQCRT.R rtCorrectionInHouse.R
+Collate: bestloess.R bestpoly.R dealQCRT.R rtCorrectionInHouse.R
 Packaged: 2017-05-18 16:41:41 UTC; xiongxin
 NeedsCompilation: no
