@@ -23,7 +23,7 @@ setwd("mypath/workdirectory")
 开始运行函数。
 
 ```
-library("rtcor")
+library("rtcorInHouse")
 ?rtcorInHouse  # get help
 rtCorrectionInHouse(
           inputFilePath = '~/DDA_lib/NEG/idresults.csv',
