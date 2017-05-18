@@ -1,0 +1,13 @@
+Package: rtcorInHouse
+Type: Package
+Title: RT Correction
+Version: 0.2.1
+Date: 2017-05-18
+Author: Xiaotao Shen <shenxt@sioc.ac.cn>, Xiong Xin <xiongxin@sioc.ac.cn>
+Maintainer: Xin Xiong <xiongxin@sioc.ac.cn>
+Description: rtcor
+License: GPL (>= 2)
+Depends: 
+Collate: bestloess.R bestpoly.R dealQCRT.R rtCorrectionInHouse.R
+Packaged: 2017-05-18 16:41:41 UTC; xiongxin
+NeedsCompilation: no

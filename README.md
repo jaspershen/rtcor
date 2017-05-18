@@ -23,21 +23,26 @@ setwd("mypath/workdirectory")
 开始运行函数。
 
 ```
-library("rtcor")
-rtcor(ref.data = "data1.csv",
-      cor.data = "data2.csv",
-      mz.tolerance = 50,
-      rt.tolerance = 180,
-      max.missing = 0)
+library("rtcorInHouse")
+?rtcorInHouse  # get help
+rtCorrectionInHouse(
+          inputFilePath = '~/DDA_lib/NEG/idresults.csv',
+          outputFileName = 'correctedResult.csv', 
+					polyDegreeHighest = 5, 
+					outPath = '~/DDA_lib/test/',  # the highest degree of polynomial
+					QCFilePath = '~/DDA_lib/QCRT/', 
+					pol = 'NEG',  # polarity, 'NEG' or 'POS'
+					method = 'polyline')  #method for correction RT, 'polyline' or 'loess'
 ```
 
 函数的参数含义如下
 
-* ref.data：将哪个数据作为参考数据，则校正数据的RT会校正到参考数据的体系中去。
-* cor.data：将哪个数据作为校正数据，则校正数据的RT会校正到参考数据的体系中去。
-* mz.tolerance：第一种情况下，去寻找RTQC混标时的mz的tolerance。
-* rt.tolerance：第一种情况下，去寻找RTQC混标时的RT的tolerance。
-* max.missing：第一种情况下，可忍受的不能寻找到的混标的最大个数。
+* inputFilePath：需要校正的文件绝对路径，数据格式参考data/idresults_example.csv；
+* outputFileName：输出文件的名称；
+* polyDegreeHighest: 多项式拟合时的最高次数(应该小于拟合的数据点个数)；
+* outPath：输出路径；
+* pol：采集实验数据时的极性，'NEG' or 'POS'；
+* method：校正RT的方法，'polyline' or 'loess'
 
 
 
